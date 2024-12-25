@@ -8,58 +8,6 @@ This project is designed to give you a hands-on experience in developing an obje
 
 ## Contributors
 
-<table align="center">
-  <tr>
-    <td align="center" width="140px">
-      <a href="https://www.linux.org/">
-        <img src="https://www.kernel.org/theme/images/logos/tux.png" width="48" height="48" alt="linux" />
-      </a>
-      <br />Linux
-    </td>
-    <td align="center" width="140px">
-      <a href="https://isocpp.org/">
-        <img src="https://isocpp.org/assets/images/cpp_logo.png" width="48" height="48" alt="c++" />
-      </a>
-      <br />C++
-    </td>
-    <td align="center" width="140px">
-      <a href="https://www.yoctoproject.org/">
-        <img src="https://www.yoctoproject.org/wp-content/uploads/sites/32/2023/09/YoctoProject_Logo_RGB_White_small.svg" width="48" height="48" alt="yokto" />
-      </a>
-      <br />Yocto Project
-    </td>
-    <td align="center" width="140px">
-      <a href="https://www.raspberrypi.com/">
-        <img src="https://upload.wikimedia.org/wikipedia/de/thumb/c/cb/Raspberry_Pi_Logo.svg/1200px-Raspberry_Pi_Logo.svg.png" width="40" height="48" alt="raspberrypi" />
-      </a>
-      <br />Raspberry Pi
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="140px">
-      <a href="https://wayland.freedesktop.org/">
-        <img src="https://wayland.freedesktop.org/wayland.png" width="48" height="48" alt="wayland" />
-      </a>
-      <br />Wayland
-    </td>
-    <td align="center" width="140px">
-      <a href="https://www.qt.io/">
-        <img src="https://www.qt.io/hubfs/Qt-logo-neon-small.png" width="60" height="40" alt="Grafana" />
-      </a>
-      <br />QT Quick
-    </td>
-    <td align="center" width="140px">
-      <a href="https://github.com/COVESA/vsomeip">
-        <img src="https://covesa.global/wp-content/uploads/2024/04/VSOMEIP-1.png" width="48" height="48" alt="Prometheus" />
-      </a>
-      <br />VSomeIP
-    </td>
-  </tr>
-</table>
-
-
-## Contributors
-
 <center>
 <table align="center">
   <tr>
