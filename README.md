@@ -8,18 +8,7 @@
 
 </div>
 
-## Paper
 
-* The paper is under submission...
-
-## News
-* `2023-2-17`:  We've uploaded the experiment results along with some code, and the full code will be released soon!
-
-* `2023-8-26`:  We have uploaded part of the code and the full code will be released soon!
-
-## Results
-* We used the BDD100K as our datasets,and experiments are run on **NVIDIA TESLA V100**.
-* model : trained on the BDD100k train set and test on the BDD100k val set .
 
 ### video visualization Results
 * Note: The raw video comes from [HybridNets](https://github.com/datvuthanh/HybridNets/tree/main/demo/video/)
@@ -93,8 +82,7 @@ pip install -r requirements.txt
 ```
 
 ## Pre-trained Model
-You can get the pre-trained model from <a href="https://pan.baidu.com/s/19wj4XOHReY8sGgCh787mOw">here</a>.
-Extraction code：jbty
+You can get the pre-trained model  from epoch-189.pth is
 weight https://drive.google.com/file/d/13IoL8qXDqPIM9FlZIN0AnF4A8EgNdo21/view?usp=drive_link
 
 ## Dataset
