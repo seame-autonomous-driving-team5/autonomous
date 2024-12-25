@@ -10,19 +10,6 @@
 
 
 
-### video visualization Results
-* Note: The raw video comes from [HybridNets](https://github.com/datvuthanh/HybridNets/tree/main/demo/video/)
-* The results of our experiments are as follows:
-<td><img src=demo/2.gif/></td>
-
-### image visualization Results
-* The results on the BDD100k val set.
-<div align = 'None'>
-  <img src="demo/fig 3.jpg" width="100%" />
-</div>
-
-
-
 
 ## Project Structure
 
@@ -72,10 +59,7 @@ This codebase has been developed with python version 3.7, PyTorch 1.12+ and torc
 ```setup
 pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113
 ```
-or
-```setup
-conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit=11.3 -c pytorch
-```
+
 See `requirements.txt` for additional dependencies and version requirements.
 ```setup
 pip install -r requirements.txt
@@ -109,25 +93,7 @@ We recommend the dataset directory structure to be the following:
 
 Update the your dataset path in the `./lib/config/default.py`.
 
-## Training
-coming soon......
 
-## Evaluation
-
-```shell
-python tools/test.py --weights weights/epoch-189.pth
-```
-
-## Demo
-
-You can store the image or video in `--source`, and then save the reasoning result to `--save-dir`
-
-```shell
-python tools/demo.py --weights weights/epoch-189.pth
-                     --source inference/image
-                     --save-dir inference/image_output
-                     --conf-thres 0.3
-                     --iou-thres 0.45
 ```
 
 ## License
