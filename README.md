@@ -108,3 +108,11 @@ Our work would not be complete without the wonderful work of the following autho
 * [YOLOv5](https://github.com/ultralytics/yolov5)
 * [YOLOv7](https://github.com/WongKinYiu/yolov7)
 * [HybridNets](https://github.com/datvuthanh/HybridNets)
+
+Dockerfile.en and server_en.py - this files have exercises how make FLASK server and use in model with inference 
+inferenceYOLOPv3.py - make inference in YOLOPv3. Read data from GOOGLE DISK and save resultat visualization on GOOGLE DISK
+this file work in GOOGLE COLAB. Reference inside file.
+
+test.log test.py train.log demo.py  - original files from project YOLOPv3
+
+TechData for conteiner - data for make conteiners
