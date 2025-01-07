@@ -178,7 +178,7 @@ Here is how to use server docker container.
 
 The way to download server docker container for server.
 ```
-docker pull yeongyoo/ads:server_flask
+docker pull yeongyoo/ads_team:server_flask
 docker run --privileged -it --network host -e FLASK_APP=server_yolopv3.py --name ads yeongyoo/ads_team:0.2
 ```
 The way to use server docker container for server
