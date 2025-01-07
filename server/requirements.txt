@@ -16,3 +16,7 @@ ptflops
 prefetch-generator
 pretrainedmodels
 h5py
+Flask
+torch
+torchvision
+requests
