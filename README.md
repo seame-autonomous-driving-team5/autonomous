@@ -173,7 +173,7 @@ Each container will:
 
 ---
 
-## Docker file for server
+## Docker image for server
 Here is how to use server docker container. 
 
 The way to download server docker container for server.
