@@ -21,7 +21,7 @@ app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024  # 32 MB
 model_size = (640, 640)
 
 # Load YOLOPv3 model
-device = select_device(None, "0")  # Use GPU 0 by default
+device = select_device(None, "0" if torch.cuda.is_available() else "cpu")  # Use GPU 0 by default
 
 model = get_net(cfg)
 checkpoint = torch.load("epoch-189.pth", map_location=device)  # Replace with weights path

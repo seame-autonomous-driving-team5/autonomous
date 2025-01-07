@@ -1,18 +1,24 @@
-FROM python:3.12
+# Base image with PyTorch pre-installed
+FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime
 
-# git clone the python file I need.
+# Set working directory
 WORKDIR /root
-RUN apt update && apt install -y git libgl1
-RUN pip install gdown opencv-python
+
+# Install additional dependencies
+RUN apt update && apt install -y \
+    git \
+    libgl1 && \
+    pip install gdown opencv-python
+
+# Clone the repository
 RUN git clone https://github.com/seame-autonomous-driving-team5/autonomous
 
-# install dependencies related to PyTorch
+# Install Python dependencies
 WORKDIR /root/autonomous/server
 RUN pip install -r requirements.txt
-RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
+
+# Download pre-trained model file (if required)
 RUN gdown --fuzzy https://drive.google.com/file/d/1JYMI9VXKYoGgOJD22_bAfUT6XdiX8Mgj/view?usp=sharing
 
-# download the pth file
-
-
+# Command to run the server
 CMD ["python3", "server_yolopv3.py"]
