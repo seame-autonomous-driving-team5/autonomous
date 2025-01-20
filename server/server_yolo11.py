@@ -20,7 +20,7 @@ def process_image():
     if "image" not in request.files:
         print("Error: No image file provided in the request.")
         return jsonify({"error": "No image file provided"}), 400
-
+ 
     file = request.files["image"]
 
     try:
