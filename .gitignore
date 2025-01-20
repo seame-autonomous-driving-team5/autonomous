@@ -3,3 +3,9 @@ __pycache__/
 server/epoch-189.pth
 server/yolo11n.pt
 .env
+*.pth
+*.pt
+.env
+*.jpg
+*.jpeg
+*.png
