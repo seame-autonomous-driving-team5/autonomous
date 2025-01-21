@@ -2,7 +2,7 @@ import os
 os.environ["QT_QPA_PLATFORM"] = "xcb"
 
 from modelrun import ModelRun
-from math import atan2
+from math import atan2, tanh
 import cv2
 import numpy as np
  
@@ -10,7 +10,7 @@ from slidewindow_origin import SlideWindow2
 from slidewindow import SlideWindow
 
 class Image2Mani():
-    def __init__(self, extreme = True):
+    def __init__(self, mode = "extreme", speed = 0.1):
         print("model")
         self.modelrun = ModelRun()
         self.slidewindow = SlideWindow()
@@ -24,10 +24,12 @@ class Image2Mani():
         self.dst_margin_down = 100
 
         # speed setting
-        self.speed = 50
+        self.speed = speed
 
         # set exterme steering value or just using normal value
-        self.extreme = extreme
+        if mode not in ["extreme", "normal", "tanh"]:
+            raise ValueError("You must set mode among 'extreme', 'normal', 'tanh'. ")
+        self.mode = mode
         self.threshold = 50
 
     def binary2img(self, bin):
@@ -70,10 +72,18 @@ class Image2Mani():
         y, x = img.shape[0:2]
         cte = x_location - x//2
 
-        if self.extreme:
-            steer = 0 if -self.threshold <= cte <= self.threshold else 200
+        if self.mode == "extreme":
+            if - self.threshold <= cte <= self.threshold:
+                steer = 0
+            else:
+                steer = 1 if cte >= self.threshold else -1
+
+        elif self.mode == "tanh":
+            steer = tanh(cte / self.threshold)
+
         else:
-            steer =  atan2(cte , y - self.threshold) * 180 / 3.14 * 0.57
+            steer =  atan2(cte , y - self.threshold) / (np.pi / 2)
+            
 
         return steer
 
