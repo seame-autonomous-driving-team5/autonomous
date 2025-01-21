@@ -14,7 +14,7 @@ app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024  # 32 MB
 
 model_run = ModelRun()
-img2main = Image2Mani(extreme=True)
+img2main = Image2Mani(mode = "extreme", speed = 0.1)
 
 @app.route("/process-image", methods=["POST"])
 def process_image():

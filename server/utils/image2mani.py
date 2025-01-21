@@ -1,13 +1,13 @@
 import os
 os.environ["QT_QPA_PLATFORM"] = "xcb"
 
-from modelrun import ModelRun
 from math import atan2, tanh
 import cv2
 import numpy as np
- 
-from slidewindow_origin import SlideWindow2
-from slidewindow import SlideWindow
+
+
+from utils.modelrun import ModelRun
+from utils.slidewindow import SlideWindow
 
 class Image2Mani():
     def __init__(self, mode = "extreme", speed = 0.1):
