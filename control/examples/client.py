@@ -6,7 +6,7 @@ import requests
 import time
 
 camera = MonochromeCamera()
-piracer = PiRacerPro()
+piracer = PiRacerStandard()
 url = "http://localhost:5000/process-image"
 time_gap = 0.1
 

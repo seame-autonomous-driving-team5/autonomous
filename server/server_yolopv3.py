@@ -36,6 +36,7 @@ def process_image():
         #response!
         response = {"steer": steer, "speed": speed}
 
+        print(response)
         return jsonify(response), 200
 
     except Exception as e:
