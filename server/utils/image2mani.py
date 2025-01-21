@@ -94,10 +94,8 @@ class Image2Mani():
 
         da_birdeye = self.bird_eyes_view(np.array(response["segmentation"]["drivable_area"]))
         ll_birdeye = self.bird_eyes_view(np.array(response["segmentation"]["lane_lines"]))
-        cv2.imwrite("birdeye.png", ll_birdeye)
         slided_img, x_location, = self.slidewindow.slideWindow(ll_birdeye)
         steer = self.determine_steer(x_location, img)
-        cv2.imshow("slided_img.png", slided_img)
 
         return steer, self.speed
     

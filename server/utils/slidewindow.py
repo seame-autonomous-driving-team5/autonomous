@@ -159,14 +159,14 @@ class SlideWindow:
             for top in range(y_top_right, 0, -self.stride):
                 left_window = WindowRange(top = top,
                                           bottom = self.yrange(top - self.wd_height, img),
-                                          left = x_avg_left - (self.wd_width // 2) - int(x * self.road_width),
-                                          right = x_avg_left + (self.wd_width // 2) - int(x * self.road_width),
+                                          left = x_avg_right - (self.wd_width // 2) - int(x * self.road_width),
+                                          right = x_avg_right + (self.wd_width // 2) - int(x * self.road_width),
                                           color = BLUE )
                 
                 right_window = WindowRange(top = top,
                                            bottom = self.yrange(top - self.wd_height, img),
-                                           left = x_avg_left - (self.wd_width // 2),
-                                           right = x_avg_left + (self.wd_width // 2),
+                                           left = x_avg_right - (self.wd_width // 2),
+                                           right = x_avg_right + (self.wd_width // 2),
                                            color = GREEN )
                 
                 left_window.draw(img)

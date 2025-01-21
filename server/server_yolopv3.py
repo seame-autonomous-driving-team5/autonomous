@@ -29,14 +29,10 @@ def process_image():
         if image is None:
             return jsonify({"error": "Invalid image file"}), 400
         
+        
         #run it and see the result
-        result = model_run.run(image)
-        steer, speed = img2main.run(result)
-
-        #response!
+        steer, speed = img2main.run(image)
         response = {"steer": steer, "speed": speed}
-
-        print(response)
         return jsonify(response), 200
 
     except Exception as e:
