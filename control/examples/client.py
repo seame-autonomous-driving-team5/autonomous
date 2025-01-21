@@ -1,23 +1,30 @@
 from piracer.vehicles import PiRacerStandard, PiRacerPro
-from piracer.cameras import Camera, MonochromeCamera
 
 import cv2
 import requests
 import time
+from picamera2 import Picamera2
+import io
+from PIL import Image
 
-camera = MonochromeCamera()
+
 piracer = PiRacerStandard()
+picam2 = Picamera2()
 url = "http://localhost:5000/process-image"
 time_gap = 0.1
 
 if __name__ == "__main__":
+    config = picam2.create_still_configuration()
+    picam2.configure(config)
+    picam2.start()
+
     while True:
         start_time = time.time()
-        img = camera.read_image()
+        img = picam2.capture_array()
         _, encoded_image = cv2.imencode('.jpg', img)
         # Convert the encoded image to bytes
-        image_bytes = encoded_image.tobytes()
-        files = {'image': image_bytes}
+        image_data = io.BytesIO(encoded_image)
+        files = {'image': image_data}
         response = requests.post(url, files=files).json()
 
         end_time = time.time()
