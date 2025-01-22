@@ -38,19 +38,19 @@ class WindowRange:
 
 class SlideWindow:
     
-    def __init__(self, left_lane_l = 100, left_lane_r = 600, right_lane_l = 750, right_lane_r = 1400, bottom = 0, top = 800, circle_height = 150):
+    def __init__(self, left_lane_l = 50, left_lane_r = 280, right_lane_l = 350, right_lane_r = 560, bottom = 90, top = 300, circle_height = 120):
         self.left_lane_range = WindowRange(top, bottom, left_lane_l, left_lane_r, color = YELLOW)
         self.right_lane_range = WindowRange(top, bottom, right_lane_l, right_lane_r, color = PURPLE)
 
         self.wd_width = 80
-        self.wd_height = 50
-        self.stride = 50
+        self.wd_height = 20
+        self.stride = 20
 
         self.circle_height = circle_height
         self.road_width = 0.55
 
         self.window_minpix = 100
-        self.lane_minpix = 400
+        self.lane_minpix = 300
 
 
     def xrange(self, x_val, img):

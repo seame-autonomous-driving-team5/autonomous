@@ -11,6 +11,7 @@ from PIL import Image
 
 piracer = PiRacerStandard()
 picam2 = Picamera2()
+config = picam2.create_still_configuration(main={'size': (640, 360)})
 url = "http://localhost:5000/process-image"
 time_gap = 0.1
 
@@ -19,8 +20,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="The car decides where to go by the interaction between server and client.")
     parser.add_argument("--url", type=str, required=True, help="You must enter IP address of the server.")
     args = parser.parse_args()
-    
-    config = picam2.create_still_configuration()
+
     picam2.configure(config)
     picam2.start()
 
