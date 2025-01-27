@@ -6,6 +6,8 @@ from matplotlib.pyplot import *
 import math
 import random
 # float로 조향값 public
+
+sys.path.append('..')
  
 TOTAL_CNT = 50
 
@@ -38,7 +40,7 @@ class WindowRange:
 
 class SlideWindow:
     
-    def __init__(self, left_lane_l = 50, left_lane_r = 280, right_lane_l = 350, right_lane_r = 560, bottom = 90, top = 300, circle_height = 120):
+    def __init__(self, left_lane_l = 50, left_lane_r = 280, right_lane_l = 350, right_lane_r = 560, bottom = 90, top = 500, circle_height = 120):
         self.left_lane_range = WindowRange(top, bottom, left_lane_l, left_lane_r, color = YELLOW)
         self.right_lane_range = WindowRange(top, bottom, right_lane_l, right_lane_r, color = PURPLE)
 

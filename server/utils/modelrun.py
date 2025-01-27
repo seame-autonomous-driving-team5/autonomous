@@ -5,6 +5,7 @@ import numpy as np
 import traceback
  
 import sys
+
 sys.path.append('..')
 
 from flask import Flask, request, jsonify
@@ -17,7 +18,7 @@ from lib.core.postprocess import morphological_process, connect_lane
 from lib.utils import show_seg_result
 
 class ModelRun:
-    def __init__(self, model_size = (640, 640)):
+    def __init__(self, model_size = (640, 640), resize = False):
         # model input picture size
         self.model_size = model_size
 
@@ -34,6 +35,8 @@ class ModelRun:
             transforms.Resize(self.model_size),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ])
+
+        self.resize = resize
 
 
     def run(self, img):
@@ -60,14 +63,20 @@ class ModelRun:
                     "class": int(cls)
                 })
 
-        # let the segmented data return to the normal
-        da_seg_mask = torch.nn.functional.interpolate(
-            da_seg_out[:, :, :, :], size=(y, x), mode='bilinear'
-        ).argmax(dim=1).squeeze().cpu().numpy()
+        da_seg_mask, ll_seg_mask = None, None
+        if self.resize:
+            # let the segmented data return to the normal
+            da_seg_mask = torch.nn.functional.interpolate(
+                da_seg_out[:, :, :, :], size=(y, x), mode='bilinear'
+            ).argmax(dim=1).squeeze().cpu().numpy()
 
-        ll_seg_mask = torch.nn.functional.interpolate(
-            ll_seg_out[:, :, :, :], size=(y, x), mode='bilinear'
-        ).argmax(dim=1).squeeze().cpu().numpy()
+            ll_seg_mask = torch.nn.functional.interpolate(
+                ll_seg_out[:, :, :, :], size=(y, x), mode='bilinear'
+            ).argmax(dim=1).squeeze().cpu().numpy()
+        else:
+            # let the segmented data return to the normal
+            da_seg_mask = da_seg_out.argmax(dim=1).squeeze().cpu().numpy()
+            ll_seg_mask = ll_seg_out.argmax(dim=1).squeeze().cpu().numpy()
 
         # Prepare response
         response = {

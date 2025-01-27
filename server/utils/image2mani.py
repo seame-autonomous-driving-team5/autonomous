@@ -1,13 +1,15 @@
 import os
+import sys
 os.environ["QT_QPA_PLATFORM"] = "xcb"
 
 from math import atan2, tanh
 import cv2
 import numpy as np
 
+sys.path.append('..')
 
-from utils.modelrun import ModelRun
-from utils.slidewindow import SlideWindow
+from modelrun import ModelRun
+from slidewindow import SlideWindow
 
 class Image2Mani():
     def __init__(self, mode = "extreme", speed = 0.1):
@@ -16,12 +18,12 @@ class Image2Mani():
         self.slidewindow = SlideWindow()
 
         # for changing bird eye's view
-        self.src_horizon = 540
+        self.src_horizon = 330
         self.src_margin_down = 50
-        self.src_margin_xaxis = 420
+        self.src_margin_xaxis = 120
 
-        self.dst_margin_up = 100
-        self.dst_margin_down = 100
+        self.dst_margin_up = 50
+        self.dst_margin_down = 50
 
         # speed setting
         self.speed = speed
@@ -94,7 +96,11 @@ class Image2Mani():
 
         da_birdeye = self.bird_eyes_view(np.array(response["segmentation"]["drivable_area"]))
         ll_birdeye = self.bird_eyes_view(np.array(response["segmentation"]["lane_lines"]))
+        cv2.imwrite("birdeye.png", ll_birdeye)
+
         slided_img, x_location, = self.slidewindow.slideWindow(ll_birdeye)
+        cv2.imwrite("slided.png", slided_img)
+
         steer = self.determine_steer(x_location, img)
 
         return steer, self.speed
@@ -103,7 +109,7 @@ class Image2Mani():
 
 if __name__ == "__main__":
     img = cv2.imread("../labimage.jpeg")
-    modelrun = Image2Mani(extreme= False)
+    modelrun = Image2Mani(mode = "tanh")
     steer, speed = modelrun.run(img)
     print("steer:", steer, "speed:", speed)
     cv2.waitKey()
