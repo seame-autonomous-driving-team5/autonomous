@@ -6,22 +6,23 @@ import cv2
 import numpy as np
 
 
-from utils.modelrun import ModelRun
-from utils.slidewindow import SlideWindow
+from modelrun import ModelRun
+from slidewindow import SlideWindow
+from inference import process_inference_points
 
 class Image2Mani():
     def __init__(self, mode = "extreme", speed = 0.1):
         print("model")
-        self.modelrun = ModelRun()
+        self.modelrun = ModelRun(resize = False)
         self.slidewindow = SlideWindow()
 
         # for changing bird eye's view
-        self.src_horizon = 540
-        self.src_margin_down = 50
-        self.src_margin_xaxis = 420
+        self.src_horizon = 384
+        self.src_margin_down = 36
+        self.src_margin_xaxis = 67
 
-        self.dst_margin_up = 100
-        self.dst_margin_down = 100
+        self.dst_margin_up = 40
+        self.dst_margin_down = 40
 
         # speed setting
         self.speed = speed
@@ -86,15 +87,16 @@ class Image2Mani():
             
 
         return steer
-
         
     def run(self, img):
 
         response = self.modelrun.run(img)
-
         da_birdeye = self.bird_eyes_view(np.array(response["segmentation"]["drivable_area"]))
+        cv2.imwrite("result.png", np.array(response["segmentation"]["lane_lines"]) * 255)
         ll_birdeye = self.bird_eyes_view(np.array(response["segmentation"]["lane_lines"]))
+        cv2.imwrite("birdeye.png", ll_birdeye)
         slided_img, x_location, = self.slidewindow.slideWindow(ll_birdeye)
+        cv2.imwrite("slided_img.png", slided_img)
         steer = self.determine_steer(x_location, img)
 
         return steer, self.speed
@@ -103,7 +105,7 @@ class Image2Mani():
 
 if __name__ == "__main__":
     img = cv2.imread("../labimage.jpeg")
-    modelrun = Image2Mani(extreme= False)
+    modelrun = Image2Mani(mode = "tanh")
     steer, speed = modelrun.run(img)
     print("steer:", steer, "speed:", speed)
     cv2.waitKey()
