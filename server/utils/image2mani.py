@@ -8,8 +8,8 @@ import numpy as np
 
 sys.path.append('..')
 
-from modelrun import ModelRun
-from slidewindow import SlideWindow
+from utils.modelrun import ModelRun
+from utils.slidewindow import SlideWindow
 
 class Image2Mani():
     def __init__(self, mode = "extreme", speed = 0.1):
