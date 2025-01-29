@@ -6,15 +6,14 @@ import traceback
 
 from flask import Flask, request, jsonify
 
-from utils.modelrun import ModelRun
+
 from utils.image2mani import Image2Mani
  
 # Flask application setup
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024  # 32 MB
 
-model_run = ModelRun()
-img2main = Image2Mani(mode = "extreme", speed = 0.1)
+img2main = Image2Mani(mode = "tanh", speed = 0.1)
 
 @app.route("/process-image", methods=["POST"])
 def process_image():
