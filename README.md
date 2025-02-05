@@ -16,175 +16,63 @@ The files in each directory take the role like:
 
 ---
 
-## Technical Specification for YOLOPv3 Docker Containers
 
-### Objective
+## Docker Container
+Dockerfile for the server is in server/docker_arm64 or server/docker_amd64. If someone don't want to set environment manually, you can just pull and run this Dockerfile. It includes Python dependencies and .pth file of YOLOPv3This. It's how to pull and to run it:
 
-Develop two Docker containers:
-
-1. **For x86 Architecture**: Based on Ubuntu 20.04 LTS.
-2. **For Raspberry Pi 4B**: Based on Debian Bookworm.
-
-Each container will:
-
-- Include the YOLOPv3 model with pre-trained weights (`YOLOPv3/epoch-189.pth`), automatically loaded at startup.
-- Provide a Flask-based server for image inference, with functionality for:
-  - Segmentation masks returned as numerical arrays.
-  - JSON responses including detected objects with class names, bounding boxes, and geometric centers.
-  - A health-check endpoint to verify the server’s operational status.
-- Support Python 3.8 and 3.11 using `pyenv`, allowing runtime selection of Python versions.
-- Include all necessary dependencies and fixed versions for reproducibility.
-- Be designed for development purposes, with potential for future CUDA support.
-
-
-### Key Requirements
-
-#### 1. Base Operating Systems
-
-- **x86 Architecture**: Use Ubuntu 20.04 LTS.
-- **Raspberry Pi 4B**: Use Debian Bookworm (64-bit).
-
-#### 2. Python and Dependency Management
-
-- Install Python versions 3.8 and 3.11 using `pyenv`.
-- Include the following Python dependencies with fixed versions:
-  ```
-  tensorboardX
-  torch==1.12.1
-  torchvision
-  torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cpu
-  yacs
-  scipy
-  tqdm
-  Cython
-  matplotlib>=3.2.2
-  numpy>=1.18.5
-  opencv-python>=4.1.2
-  Pillow
-  PyYAML>=5.3
-  seaborn
-  imageio
-  scikit-learn
-  albumentations
-  ptflops
-  prefetch-generator
-  pretrainedmodels
-  h5py
-  ```
-- Ensure fixed PyTorch versions (no automatic upgrades).
-- Add any additional dependencies required by YOLOPv3.
-
-#### 3. Model Integration
-
-- Embed YOLOPv3 weights (`YOLOPv3/epoch-189.pth`) inside the container.
-- Implement automatic model weight loading upon container startup.
-- Include class mapping for YOLOPv3 to provide meaningful object labels.
-
-#### 4. Flask Server
-
-- Implement the following endpoints:
-
-  1. ``** (POST)**:
-
-     - Accept an image file (640x640x3) and a unique identifier.
-     - Perform inference using YOLOPv3:
-       - Return detected objects with:
-         - Class name
-         - Confidence score
-         - Bounding box coordinates (xmin, ymin, xmax, ymax)
-         - Geometric center (x, y)
-       - Return segmentation masks (`da_seg_out` and `ll_seg_out`) as numerical arrays.
-     - Response JSON format:
-       ```json
-       {
-         "identifier": "unique_id",
-         "detections": [
-           {
-             "class": "car",
-             "confidence": 0.95,
-             "bbox": [xmin, ymin, xmax, ymax],
-             "center": [x, y]
-           }
-         ],
-         "da_seg_mask": [[0, 1, 0], [1, 0, 1]],
-         "ll_seg_mask": [[1, 0, 1], [0, 1, 0]]
-       }
-       ```
-
-  2. ``** (GET)**:
-
-     - Return server status as:
-       ```json
-       {
-         "status": "Server is running"
-       }
-       ```
-
-- Configure Flask in development mode for testing.
-
-#### 5. CUDA Support
-
-- CUDA is not required initially but should be planned for future compatibility.
-- Ensure the container setup can be extended for CUDA (e.g., in Google Colab).
-
-#### 6. Dockerfile Specifications
-
-- Create two separate Dockerfiles:
-
-  1. **For x86 Architecture**:
-     - Base image: Ubuntu 20.04 LTS.
-     - CPU-only PyTorch version from the official index.
-  2. **For Raspberry Pi 4B**:
-     - Base image: Debian Bookworm (64-bit).
-     - CPU-only PyTorch version compatible with ARM64.
-
-- Install all dependencies and system packages (e.g., `pyenv`, OpenCV, Flask).
-
-- Configure the environment for Python runtime selection via `pyenv`.
-
-- Embed model weights and ensure automatic loading at startup.
-
-- Optimize image size (use multi-stage builds if necessary).
-
-#### 7. Testing and Validation
-
-- Verify the Flask server endpoints for functionality:
-  - `/process-image`: Test with valid and invalid images.
-  - `/health`: Confirm proper server status response.
-- Validate model inference accuracy and consistency across both architectures.
-- Test segmentation mask outputs as numerical arrays.
-
-
-### Deliverables
-
-1. Two Dockerfiles:
-   - `Dockerfile.x86`: For Ubuntu 20.04 LTS (x86).
-   - `Dockerfile.arm64`: For Debian Bookworm (Raspberry Pi 4B).
-2. Flask server implementation.
-3. Documentation:
-   - Instructions for building and running the containers.
-   - API documentation for the Flask server.
-4. Sample test scripts for validating endpoints and model outputs.
-
-### Future Considerations
-
-- Add CUDA support for Google Colab or other environments.
-- Optimize Docker images for deployment (e.g., smaller base images, multi-stage builds).
-
----
-
-## Docker image for server
-Here is how to use server docker container. 
-
-The way to download server docker container for server.
 ```
 docker pull yeongyoo/ads_team:server_flask
 docker run --privileged -it --network host -e FLASK_APP=server_yolopv3.py --name ads yeongyoo/ads_team:0.2
 ```
-The way to use server docker container for server
+
+It's how to use server docker container for server
 ```
 docker start ads
 ```
+
+## Server Code
+It deals with the Flask server code
+
+### server/lib
+Basically the python code files inside are same as [this link](https://github.com/jiaoZ7688/YOLOPv3/tree/main/lib), which help to run the model and support various functions.
+
+### server/utils
+These code inside aims to extract proper steering and speed value by given code. Deep learning model YOLOPv3 is used for lane segmentation and object detection. The steps are like that:
+
+1. Run the YOLOPv3 model by using class ```ModelRun()``` which includes preprocessing and postprocessing. the output form is such:
+```
+{
+  "identifier": "unique_id",
+  "detections": [
+    {
+      "class": "car",
+      "confidence": 0.95,
+      "bbox": [xmin, ymin, xmax, ymax],
+      "center": [x, y]
+    }
+  ],
+  "da_seg_mask": [[0, 1, 0], [1, 0, 1]],
+  "ll_seg_mask": [[1, 0, 1], [0, 1, 0]]
+}
+```
+2. Changing ```ll_seg_mask``` and ```da_seg_mask```into bird eye's view (or vertical view), which makes the movement of , more understandable.
+3. Use sliding window way to detect where lanes are and to make robust comprehension how the lane is curved. ```SlidedWindow()``` class returns x-coordinate of center of the road, which can be good clue to notice how curved the lane is.
+4. Using value come out from sliding window process, determine the steering and speed value. in this process, if there are objects which is regarded as stop signal or pedestrians, the car must be stopped.
+
+#### image2mani.py
+Image2Mani class takes the role of suggesting proper steering and speed value. ```run()``` method in Image2Mani class takes the input as an image and the output is a steering value.
+
+#### modelrun.py
+ModelRun class takes the role of running the YOLOPv2 model,
+including pre-processing and post-processing, and ```run()``` in ModelRun takes the output as detected objects, segmented driving area, and segmented lane lines area.
+
+#### slidewindow.py
+SlideWindow class helps the computer to detect where the lane is, by sliding the fixed-size window. It determines where the lane line is, and give a clue how much the lane is curved.
+
+```slidewindow()``` of slided window takes the input as image and
+the output as image with slided window, and x coordinate which is essential clue to know how curved the lane is.
+
+This python file includes, at the same time, WindowRange class, which represents a specific rectangular space in the image, which will be called "Window".
 
 ## Contributors
 <center>
@@ -223,4 +111,3 @@ docker start ads
   </tr>
 </table>
 </center>
-

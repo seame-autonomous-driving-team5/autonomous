@@ -19,7 +19,8 @@ from lib.core.postprocess import morphological_process, connect_lane
 from lib.utils import show_seg_result
 
 '''
-ModelRun class takes the role of running the YOLOPv2 model,  
+ModelRun class takes the role of running the YOLOPv2 model,
+including pre-processing and post-processing,
 and run() in ModelRun takes the output as detected objects,  
 segmented driving area, and segmented lane lines area.
 

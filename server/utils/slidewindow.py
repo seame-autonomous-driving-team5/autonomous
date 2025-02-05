@@ -60,12 +60,14 @@ class WindowRange:
   
 
 '''
-SlideWindow class helps the computer to detect where the lane is, by sliding the fixed-size window.
-slided window determines where the lane line is, and by the slided window.
-We can know how much the lane is curved. By the slideWindow
+SlideWindow class helps the computer to detect where the lane is, 
+by sliding the fixed-size window. 
+It determines where the lane line is, 
+and give a clue how much the lane is curved.
 
 slidewindow() of slided window takes the input as image and
-the output as image with slided window, and x coordinate which is not 
+the output as image with slided window, 
+and x coordinate which is essential clue to know how curved the lane.
 '''
 
 '''Класс SlideWindow помогает компьютеру определить, где находится полоса движения, используя метод скользящего окна фиксированного размера.  
