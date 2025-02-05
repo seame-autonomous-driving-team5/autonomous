@@ -1,4 +1,6 @@
 # Team5:ADS - Object Detection and Avoidance
+[RUSSIAN TRANSLATION IS HERE](README_RU.md)
+
 
 ## Project Objective
 
@@ -18,7 +20,7 @@ The files in each directory take the role like:
 
 
 ## Docker Container
-Dockerfile for the server is in server/docker_arm64 or server/docker_amd64. If someone don't want to set environment manually, you can just pull and run this Dockerfile. It includes Python dependencies and .pth file of YOLOPv3This. It's how to pull and to run it:
+Dockerfile for the server is in [server/docker_arm64](server/docker_arm64) or [server/docker_amd64](server/docker_amd64). If someone don't want to set environment manually, you can just pull and run this Dockerfile. It includes Python dependencies and .pth file of YOLOPv3This. It's how to pull and to run it:
 
 ```
 docker pull yeongyoo/ads_team:server_flask
@@ -29,9 +31,10 @@ It's how to use server docker container for server
 ```
 docker start ads
 ```
+The link of this container in Dockerhub is [from here](https://hub.docker.com/repository/docker/yeongyoo/ads_team/general).
 
 ## Server Code
-It deals with the Flask server code
+It deals with the Flask server code which deals with Machine Learning calculation, and sends the length of the car.
 
 ### server/lib
 Basically the python code files inside are same as [this link](https://github.com/jiaoZ7688/YOLOPv3/tree/main/lib), which help to run the model and support various functions.
