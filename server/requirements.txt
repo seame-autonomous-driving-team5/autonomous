@@ -20,3 +20,4 @@ Flask
 torch
 torchvision
 requests
+ultralyticss
